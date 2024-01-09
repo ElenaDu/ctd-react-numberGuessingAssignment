@@ -1,49 +1,32 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 
-class GuessControl extends Component {
-  constructor(props) {
-    super(props);
+const GuessControl = ({ onGuess }) => {
+  //Create a state variable currentGuess with setter setCurrentGuess and default value of an empty string.
+  const [currentGuess, setCurrentGuess] = useState("");
 
-    this.state = {
-      currentGuess: "",
-    };
-
-    /**
-     * These lines are required to make the methods/functions declared on this
-     *  class have the correct `this` object when they run.
-     */
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.onSubmitGuess = this.onSubmitGuess.bind(this);
+  //Create a handleInputChange function that updates the currentGuess state value when the user changes the value in the input. 
+  const handleInputChange = (event) => {
+    setCurrentGuess(event.target.value);
   }
 
-  handleInputChange(event) {
-    this.setState({ currentGuess: event.target.value });
-  }
+  //Create a onSubmitGuess function that calls the onGuess prop with the currentGuess value converted to a number
+  // and resets the currentGuess to an empty string when it is called.
 
-  onSubmitGuess() {
-    // Since the values from an HTML input are strings by default,
-    //  convert to a number for the returned guess value
-    //  by passing in the string to the Number function.
-    // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
-    this.props.onGuess(Number(this.state.currentGuess));
-    this.setState({ currentGuess: "" });
-  }
+  const onSubmitGuess = () => {
+    onGuess(Number(currentGuess));
+    setCurrentGuess("");
+  };
 
-  render() {
-    return (
-      <div>
-        <input
-          type="number"
-          value={this.state.currentGuess}
-          onChange={this.handleInputChange}
-        />
-        <Button onClick={this.onSubmitGuess}>Submit Guess</Button>
-      </div>
-    );
-  }
-}
-const NumberGuessingGame = () => {
-  
+  return (
+    <div>
+      <input
+        type="number"
+        value={currentGuess}
+        onChange={handleInputChange}
+      />
+      <Button onClick={onSubmitGuess}>Submit Guess</Button>
+    </div>
+  );
 }
 export default GuessControl;
