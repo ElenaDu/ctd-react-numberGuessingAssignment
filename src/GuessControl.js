@@ -43,5 +43,7 @@ class GuessControl extends Component {
     );
   }
 }
-
+const NumberGuessingGame = () => {
+  
+}
 export default GuessControl;
